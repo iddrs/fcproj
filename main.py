@@ -12,6 +12,13 @@ import os
 import configparser
 import logging
 import datetime
+import locale
+from fcproj.utils import currency
+
+try:
+    locale.setlocale(locale.LC_ALL, 'pt_BR')
+except:
+    locale.setlocale(locale.LC_ALL, 'Portuguese_Brazil')
 
 
 def main():
@@ -85,15 +92,34 @@ def main():
     data = fcproj.data.purge(data)
     logger.info(f'Restaram {len(data)} fontes de recurso com valores.')
 
+    # Agrupa algumas fontes em recurso próprio
+    data = fcproj.data.agrupa_recurso_proprio(data)
+    logger.info(f'Restaram {len(data)} fontes de recurso após agrupamento do recurso próprio.')
+
+    # Calcula outros valores
+    deficit_vinculados = fcproj.calc.deficit_vinculados(data)
+    logger.info(f'Os recursos vinculados apresentam déficit {deficit_vinculados}')
+    resultado_proprio = fcproj.calc.resultado_proprio(data, deficit_vinculados)
+    logger.info(f'Os recursos próprios apresentam resultado {resultado_proprio}')
+
+    # Calcula o total
+    data = fcproj.calc.total(data)
+    logger.info('Linha com totais adicionada.')
+
     # Salva o relatório
     destination = os.path.join(config['OUTPUT']['cache'], config['OUTPUT']['flatex'])
     char_writed = fcproj.output.latex(data, destination)
     logger.info(f'Foram escritos {char_writed} caracteres para {destination}')
 
+
     # Gerando dados auxiliares
+    logger.info('Gerando arquivos auxiliares')
     with open(os.path.join(config['OUTPUT']['cache'], 'date.tex'), 'w', encoding='utf-8') as f:
         dt = datetime.datetime(2022, 7, 1)
         f.write('\\date{%s}' % (dt.strftime('%B de %Y')))
+        f.write('\\newcommand{\\thedate}{%s}' % (dt.strftime('%B de %Y')))
+        f.write('\\newcommand{\\deficitVinculado}{%s}' % (currency(deficit_vinculados)))
+        f.write('\\newcommand{\\resultadoProprio}{%s}' % (currency(resultado_proprio)))
     with open(os.path.join(config['OUTPUT']['cache'], 'arquivo.txt'), 'w', encoding='utf-8') as f:
         f.write('fcproj_report_%s.pdf' % (dt.strftime('%Y-%m')))
 

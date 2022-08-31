@@ -76,3 +76,29 @@ def saldo_final(data):
     data['saldo_final'] = round(
         data.saldo_atual + data.a_arrecadar - data.a_empenhar - data.a_pagar - data.saldo_rp - data.extra_a_pagar, 2)
     return data
+
+def total(data):
+    total = data.copy()
+    total['total'] = 'Total'
+    total = total[
+        ['total', 'saldo_atual', 'a_arrecadar', 'a_empenhar', 'a_pagar', 'saldo_rp', 'extra_a_pagar', 'saldo_final']].groupby('total').sum()
+    total['recurso_vinculado'] = 9999
+    total['nome'] = 'Total'
+    total = total.reset_index(level=0)
+    total = total.drop('total', axis='columns')
+    data = pd.concat([data, total])
+    return data
+
+def deficit_vinculados(data):
+    vinculados = data[(data['recurso_vinculado'] > 0) & (data['recurso_vinculado'] != 50)]
+    resultado = round(vinculados['saldo_final'].sum(), 2)
+    if resultado < 0:
+        return resultado
+    else:
+        return 0.0
+
+
+def resultado_proprio(data, deficit_vinculados):
+    proprio = data[data['recurso_vinculado'] == 0]
+    resultado = round(proprio['saldo_final'].sum(), 2)
+    return (resultado - deficit_vinculados)

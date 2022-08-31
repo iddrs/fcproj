@@ -9,20 +9,66 @@
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{lscape}
-
+\usepackage{hyperref}
 
 
 \title{Fluxo de Caixa Projetado por Fonte de Recursos}
-\author{Everton da Rosa - Contador - CRC RS-076595/O-3}
+\author{
+	Everton da Rosa\\
+	Contador\\
+	CRC RS-076595/O-3
+}
 \input{"cache/date.tex"}
+
+
+\renewcommand{\abstractname}{Preâmbulo}
+\renewcommand{\abstract}{\begin{center}
+\textbf{Preâmbulo}
+\end{center}}
+
 
 \begin{document}
 
 \maketitle
 
-\begin{landscape}
-\input{"cache/tabela.tex"}
-\end{landscape}
+\begin{abstract}
+
+Este relatório apresenta o fluxo de caixa projetado por fonte de recursos com base nos dados de~\thedate.
+
+O objetivo é demonstrar a estimativa para o saldo de caixa final em 31 de dezembro do corrente exercício tendo por base as premissas expressas em~\nameref{ch:metodologia}.
+
+\end{abstract}
+
+
+
+
+\chapter*{Metodologia} \label{ch:metodologia}
+
+O fluxo de caixa projetado é o demonstrado no~\nameref{app:fluxo_de_caixa} e foi elaborado a partir dos dados orçamentários e contábeis acumulados até a competência~\thedate.
+
+As premissas utilizadas foram as seguintes:
+
+\begin{description}
+\item[Saldo atual] entende que o reflexo de toda a arrecadação que foi agregada ao saldo financeiro inicial do ano está refletida no saldo atual.
+
+\item[A arrecadar] considera os valores estimados a arrecadar desde o mês imediatamente posterior ao de referência até o final do exercício.\\Considera o maior dos valores entre o valor já arrecadado, a previsão atualizada da receita e a soma do arrecadado acrescido do previsto a arrecadar.
+
+\item[A empenhar] considera que a totalidade da dotação atualizada será empregada no ano. Por isso é apurado a partir da subtração do valor empenhado da dotação atualizada.
+
+\item[Empenhado a pagar] representa os valores empenhados, liquidados e não liquidados ainda não pagos. Expressa a premissa de que o total empenhado será pago no ano.
+
+\item[Saldo de RP] considera que a totalidade dos restos a pagar de anos anteriores será quitada dentro do exercício.
+
+\item[Saldo extra-orçamentário] uma vez que a receita extra-orçamentária integra o Saldo atual, é importante deduzir a despesa extra-orçamentária a pagar (reduzido dos valores a compensar) do saldo financeiro.
+\end{description}
+
+\chapter*{Resultado Líquido dos Recursos Próprios} \label{ch:resultado_recursos_proprios}
+
+Os recursos próprios englobam as fontes de recurso \textit{0001 Livre}, \textit{0020 MDE} e \textit{0040 ASPS} as quais, dada a sua natureza podem ser agrupadas para fins de análise.
+
+Considerando a sistemática de projeção, eventualmente algumas fontes de recursos vinculados (não próprios) podem apresentar Saldo final negativo. Nesta situação, os recursos próprios devem realizar a cobertura dessa insuficiência projetada.
+
+Nesse sentido, verifica-se que até o mês de~\thedate~as fontes de recurso vinculadas\footnote{Não é considerado o recurso vinculado 0050 RPPS} apresentam déficit projetado de R\$~\deficitVinculado. Como resultado, a fonte de recursos próprios apresenta um resultado líquido projetado de R\$~\resultadoProprio.
 
 
 
@@ -39,4 +85,15 @@
 	Contador\\
 	CRC RS-076595/O-3
 \end{center}
+
+
+\appendix
+
+\begin{landscape}
+\chapter*{Fluxo de Caixa Projetado} \label{app:fluxo_de_caixa}
+
+\input{"cache/tabela.tex"}
+\end{landscape}
+
+
 \end{document}
