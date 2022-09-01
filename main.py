@@ -111,6 +111,10 @@ def main():
     char_writed = fcproj.output.latex(data, destination)
     logger.info(f'Foram escritos {char_writed} caracteres para {destination}')
 
+    destination = os.path.join(config['OUTPUT']['cache'], config['OUTPUT']['flatexrv'])
+    char_writed = fcproj.output.latex_vinculos(data, destination)
+    logger.info(f'Foram escritos {char_writed} caracteres para {destination}')
+
 
     # Gerando dados auxiliares
     logger.info('Gerando arquivos auxiliares')
