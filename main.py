@@ -13,7 +13,7 @@ import configparser
 import logging
 import datetime
 import locale
-from fcproj.utils import currency
+from fcproj.utils import currency, check_venv
 
 try:
     locale.setlocale(locale.LC_ALL, 'pt_BR')
@@ -128,4 +128,8 @@ def main():
         f.write('fcproj_report_%s.pdf' % (dt.strftime('%Y-%m')))
 
 if __name__ == '__main__':
-    main()
+    if check_venv() is True:
+        main()
+    else:
+        print('O programa não está executando em um ambiente virtual do Python!')
+        exit(1)
