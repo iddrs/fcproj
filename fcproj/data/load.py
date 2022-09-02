@@ -43,11 +43,11 @@ def receita(file):
 
 def baldesp(file):
     df = pd.read_csv(file, sep=";",
-                     usecols=['recurso_vinculado', 'dotacao_inicial', 'atualizacao_monetaria', 'creditos_suplementares',
+                     usecols=['funcao', 'recurso_vinculado', 'dotacao_inicial', 'atualizacao_monetaria', 'creditos_suplementares',
                               'creditos_especiais', 'creditos_extraordinarios', 'reducao_dotacao',
                               'suplementacao_recurso_vinculado', 'reducao_recurso_vinculado', 'valor_empenhado',
                               'valor_pago', 'transferencia', 'transposicao', 'remanejamento'],
-                     dtype={'recurso_vinculado': int, 'dotacao_inicial': float, 'atualizacao_monetaria': float,
+                     dtype={'funcao': int, 'recurso_vinculado': int, 'dotacao_inicial': float, 'atualizacao_monetaria': float,
                             'creditos_suplementares': float,
                             'creditos_especiais': float, 'creditos_extraordinarios': float, 'reducao_dotacao': float,
                             'suplementacao_recurso_vinculado': float, 'reducao_recurso_vinculado': float,

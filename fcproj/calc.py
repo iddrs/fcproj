@@ -7,6 +7,7 @@ import pandas as pd
 def saldo_atual(balver):
     df = balver[(balver.conta_contabil.str.startswith('1'))
                 & (balver.indicador_superavit_financeiro.isin(['F', 'f']))]
+    df = df.copy()
     df['saldo_atual'] = round(df['saldo_atual_debito'] - df['saldo_atual_credito'], 2)
     df = df[['recurso_vinculado', 'saldo_atual']]
     df = df.groupby('recurso_vinculado').sum()
@@ -43,6 +44,7 @@ def a_arrecadar(balrec, receita, month):
 
 def a_empenhar(baldesp):
     baldesp['a_empenhar'] = round(baldesp.dotacao_atualizada - baldesp.valor_empenhado, 2)
+    baldesp = baldesp[baldesp['funcao'] != 99]
     df = baldesp[['recurso_vinculado', 'a_empenhar']]
     df = df.groupby('recurso_vinculado').sum()
     return df
@@ -66,6 +68,7 @@ def extra_a_pagar(balver):
     df = balver[(balver.indicador_superavit_financeiro.isin(['F', 'f']))
                 & ((balver.conta_contabil.str.startswith('2.1.8.8.'))
                    | (balver.conta_contabil.str.startswith('1.1.3.2.3.')))]
+    df = df.copy()
     df['extra_a_pagar'] = round(df.saldo_atual_credito - df.saldo_atual_debito, 2)
     df = df[['recurso_vinculado', 'extra_a_pagar']]
     df = df.groupby('recurso_vinculado').sum()

@@ -15,10 +15,10 @@ def purge(data):
 
 
 def agrupa_recurso_proprio(data):
-    vinculos = (1, 20, 40)
     recurso_proprio = data[(data['recurso_vinculado'] == 1)
                            | (data['recurso_vinculado'] == 20)
                            | (data['recurso_vinculado'] == 40)]
+    recurso_proprio = recurso_proprio.copy()
     recurso_proprio['group'] = 0
     recurso_proprio = recurso_proprio[
         ['group', 'saldo_atual', 'a_arrecadar', 'a_empenhar', 'a_pagar', 'saldo_rp', 'extra_a_pagar', 'saldo_final']].groupby('group').sum()
