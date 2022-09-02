@@ -1,9 +1,19 @@
+# Inicia o venv
+.\venv\Scripts\activate.ps1
+
+
 $opt = '&Sim', '&Não'
 
 # Processando o código Python
 $RunR = $Host.UI.PromptForChoice('Executar Python', 'Deseja gerar os dados?', $opt, 0)
 if ($RunR -eq 0) {
     python main.py
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error -Message "Um erro aconteceu: $LASTEXITCODE"
+        Pause
+        exit
+    }
+    
 } else {
     Write-Host 'Pulando a geração dos dados com Python...'
 }
@@ -14,6 +24,11 @@ $Output = Join-Path -Path 'output' -ChildPath $OutputFile
 
 # Gerando a saída em PDF
 pdflatex -file-line-error -halt-on-error -output-directory cache/ -output-format pdf report.tex
+if ($LASTEXITCODE -ne 0) {
+    Write-Error -Message "Um erro aconteceu: $LASTEXITCODE"
+    Pause
+    exit
+}
 # Executa duas vezes por causa do longtable
 pdflatex -file-line-error -halt-on-error -output-directory cache/ -output-format pdf report.tex
 
@@ -30,3 +45,6 @@ if ($ClearTrash -eq 0) {
 } else {
     Write-Host 'Os arquivos de cache não foram apagados...'
 }
+
+# desativa o venv
+deactivate
