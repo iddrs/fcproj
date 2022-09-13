@@ -119,7 +119,7 @@ def main():
     # Gerando dados auxiliares
     logger.info('Gerando arquivos auxiliares')
     with open(os.path.join(config['OUTPUT']['cache'], 'date.tex'), 'w', encoding='utf-8') as f:
-        dt = datetime.datetime(2022, 7, 1)
+        dt = datetime.datetime(int(year), int(month), 1)
         f.write('\\date{%s}' % (dt.strftime('%B de %Y')))
         f.write('\\newcommand{\\thedate}{%s}' % (dt.strftime('%B de %Y')))
         f.write('\\newcommand{\\deficitVinculado}{%s}' % (currency(deficit_vinculados)))
